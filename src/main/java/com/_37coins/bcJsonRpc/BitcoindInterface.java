@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com._37coins.bcJsonRpc.pojo.Account;
-import com._37coins.bcJsonRpc.pojo.Address;
+import com._37coins.bcJsonRpc.pojo.AddressStatus;
 import com._37coins.bcJsonRpc.pojo.AddressInformation;
 import com._37coins.bcJsonRpc.pojo.Block;
 import com._37coins.bcJsonRpc.pojo.Info;
@@ -63,7 +63,8 @@ public interface BitcoindInterface {
 	//Returns an array of objects containing:"account" : the account of the receiving addresses,"amount" : total amount received by addresses with this account,"confirmations" : number of confirmations of the most recent transaction included
 	public List<Account> listreceivedbyaccount(long minConfirmations, boolean includeEmpty);
 	//Returns an array of objects containing:"address" : receiving address,"account" : the account of the receiving address,"amount" : total amount received by the address,"confirmations" : number of confirmations of the most recent transaction included,To get a list of accounts on the system, execute bitcoind listreceivedbyaddress 0 true
-	public List<Address> listreceivedbyaddress(long minConfirmations, boolean includeEmpty);
+	public List<AddressStatus> listreceivedbyaddress();
+	public List<AddressStatus> listreceivedbyaddress(long minConfirmations, boolean includeEmpty);
 	//Get all transactions in blocks since block [blockhash], or all transactions if omitted.
 	public List<LastBlock> listsinceblock(String blockhash, int minConfirmations);
 	//Returns up to [count] most recent transactions skipping the first [from] transactions for account [account]. If [account] not provided will return recent transaction from all accounts.
@@ -87,12 +88,13 @@ public interface BitcoindInterface {
 	// Return information about bitcoinaddress.
 	public AddressInformation validateaddress(String bitcoinAddress);
 	//Returns a new bitcoin address for receiving payments. If [account] is specified (recommended), it is added to the address book so payments received with the address will be credited to [account].
+	public String getnewaddress();
 	public String getnewaddress(String label);
+	public String getnewaddress(String label, String type);
 	//Returns a Base64 encoded signature used to verify the provided message was signed by the owner of bitcoinaddress
 	public String signmessage(String bitcoinaddress, String message);
 	//Verifies the signature and message matches the bitcoin address provided (See signmessage)
 	public boolean verifymessage(String bitcoinaddress, String signature, String message);
 	//stop
 	public String stop();
-	
 }
